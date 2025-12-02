@@ -1,18 +1,34 @@
-Object subclass: Fibonacci [
+Object subclass: Fibonacci [].
+
+Fibonacci class extend [
+  | Sequence | 
+
+  initialize [
+    Sequence := OrderedCollection with: 0 with: 1.
+  ]
 
 	generateFirst: n [
-		| list |
-		list := OrderedCollection with: 0 with: 1.
-		3 to: n do: [:i | 
-			list add: ((list at: (i - 1)) + (list at: (i - 2))).
+    | size |
+
+    Sequence ifNil: [ self initialize ].
+
+    size := Sequence size.
+
+    (n <= size) ifTrue: [
+      ^ Sequence copyFrom: 1 to: n
+    ].
+
+		(size + 1) to: n do: [:i | 
+      Sequence add: ((Sequence at: (i - 1)) + (Sequence at: (i - 2))).
 		].
-		^ list
+		^ Sequence
 	]
 ].
 
-| fib numbers n |
+Fibonacci initialize.
+
+| numbers n |
 Transcript show: 'Digite a quantidade de dígitos de fibonacci que você deseja: '; flush.
 n := (FileStream stdin nextLine) asInteger.
-fib := Fibonacci new.
-numbers := fib generateFirst: n.
+numbers := Fibonacci generateFirst: n.
 numbers printNl.
